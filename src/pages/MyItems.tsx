@@ -18,6 +18,7 @@ interface Item {
   type: "lost" | "found";
   created_at: string;
   status: string;
+  tags?: string[];
 }
 
 const MyItems = () => {

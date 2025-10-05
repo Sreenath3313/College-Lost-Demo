@@ -24,6 +24,7 @@ export type Database = {
           image_url: string | null
           location: string | null
           resolved_at: string | null
+          tags: string[]
           status: string
           title: string
           type: string
@@ -39,6 +40,7 @@ export type Database = {
           image_url?: string | null
           location?: string | null
           resolved_at?: string | null
+          tags?: string[]
           status?: string
           title: string
           type: string
@@ -54,6 +56,7 @@ export type Database = {
           image_url?: string | null
           location?: string | null
           resolved_at?: string | null
+          tags?: string[]
           status?: string
           title?: string
           type?: string
