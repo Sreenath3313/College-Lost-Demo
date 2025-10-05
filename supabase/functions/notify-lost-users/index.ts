@@ -11,10 +11,9 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-// Supabase credentials
-const SUPABASE_URL = "https://lhnrkyfqiulvwvkdxipa.supabase.co";
-const SUPABASE_SERVICE_ROLE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxobnJreWZxaXVsdnd2a2R4aXBhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTQ4MjMwNywiZXhwIjoyMDc1MDU4MzA3fQ.BE23gtZOSIgIUsLbX_DJ-Fu9n3xGq_E-Be9MNt5cw-A";
+// Supabase credentials (set as Edge Function secrets)
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
 // Optional: Replace with your Resend API key + email sender
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -54,6 +53,14 @@ serve(async (req: Request): Promise<Response> => {
     }
 
     // Connect with service role key
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+      console.error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars");
+      return new Response(
+        JSON.stringify({ error: "Server not configured: missing Supabase credentials" }),
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } },
+      );
+    }
+
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
       auth: { autoRefreshToken: false, persistSession: false },
     });
