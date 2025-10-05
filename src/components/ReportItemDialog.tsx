@@ -33,6 +33,7 @@ export const ReportItemDialog = ({ open, onOpenChange, type, onSuccess }: Report
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [contactInfo, setContactInfo] = useState("");
+  const [tags, setTags] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -86,6 +87,10 @@ export const ReportItemDialog = ({ open, onOpenChange, type, onSuccess }: Report
           location,
           contact_info: contactInfo,
           image_url: imageUrl,
+          tags: tags
+            .split(',')
+            .map((t) => t.trim())
+            .filter((t) => t.length > 0),
         })
         .select('*')
         .single();
@@ -118,6 +123,7 @@ export const ReportItemDialog = ({ open, onOpenChange, type, onSuccess }: Report
       setCategory("");
       setLocation("");
       setContactInfo("");
+      setTags("");
       setImageFile(null);
     } catch (error) {
       console.error("Error submitting item:", error);
@@ -193,6 +199,16 @@ export const ReportItemDialog = ({ open, onOpenChange, type, onSuccess }: Report
               onChange={(e) => setContactInfo(e.target.value)}
               placeholder="Email or phone number"
               required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="tags">Tags (comma-separated)</Label>
+            <Input
+              id="tags"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="e.g., blue, backpack, library"
             />
           </div>
 

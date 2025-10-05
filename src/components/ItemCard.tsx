@@ -12,6 +12,7 @@ interface ItemCardProps {
   imageUrl?: string;
   type: "lost" | "found";
   createdAt: string;
+  tags?: string[];
   onContactClick: () => void;
 }
 
@@ -24,6 +25,7 @@ export const ItemCard = ({
   type,
   createdAt,
   onContactClick,
+  tags,
 }: ItemCardProps) => {
   return (
     <Card 
@@ -66,6 +68,11 @@ export const ItemCard = ({
           <Badge variant="outline" className="text-xs">
             {category}
           </Badge>
+          {tags && tags.length > 0 && tags.slice(0, 3).map((tag) => (
+            <Badge key={tag} variant="secondary" className="text-xs">
+              {tag}
+            </Badge>
+          ))}
           {location && (
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <MapPin className="h-3 w-3" />

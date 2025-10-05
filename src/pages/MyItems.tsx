@@ -18,6 +18,7 @@ interface Item {
   type: "lost" | "found";
   created_at: string;
   status: string;
+  tags?: string[];
 }
 
 const MyItems = () => {
@@ -72,7 +73,7 @@ const MyItems = () => {
     try {
       const { error } = await supabase
         .from('items')
-        .update({ status: 'resolved' })
+        .update({ status: 'resolved', resolved_at: new Date().toISOString() })
         .eq('id', id);
 
       if (error) throw error;

@@ -20,6 +20,7 @@ interface Item {
   image_url: string | null;
   type: "lost" | "found";
   created_at: string;
+  tags?: string[];
 }
 
 const CATEGORIES = [
@@ -190,6 +191,7 @@ const Index = () => {
                 imageUrl={item.image_url || undefined}
                 location={item.location || undefined}
                 description={item.description || undefined}
+                tags={item.tags}
                 createdAt={item.created_at}
                 onContactClick={() => handleItemClick(item)}
               />
